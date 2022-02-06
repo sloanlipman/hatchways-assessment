@@ -20,7 +20,10 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.hamcrest:hamcrest-core:2.2'
+    testImplementation 'org.hamcrest:hamcrest-library:2.2'
+    testImplementation 'org.mockito:mockito-core'
 }
 
 spotless {
