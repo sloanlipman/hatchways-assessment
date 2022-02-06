@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.slipman.assessment.exception.PostExceptionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import com.slipman.assessment.service.HatchawaysAssessmentService;
 
 @RestController
 @RequestMapping("/api")
+@ControllerAdvice
 public class HatchawaysAssessementController
 {
     @Autowired
@@ -28,7 +31,6 @@ public class HatchawaysAssessementController
     }
 
     @GetMapping("/posts")
-    @ExceptionHandler(PostException.class)
     public ResponseEntity<Map<String, List<Post>>> getPosts(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "sortBy", required = false) String sortBy,
             @RequestParam(value = "direction", required = false) String direction)
@@ -37,5 +39,13 @@ public class HatchawaysAssessementController
         Map<String, List<Post>> response = new HashMap<>();
         response.put("posts", posts);
         return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(PostException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public PostExceptionResponse handleError(PostException postException)
+    {
+        return new PostExceptionResponse(postException);
     }
 }
