@@ -5,21 +5,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.slipman.assessment.domain.SortAttribute;
-import com.slipman.assessment.domain.SortDirection;
-import com.slipman.assessment.exception.PostException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.slipman.assessment.domain.Ping;
 import com.slipman.assessment.domain.Post;
+import com.slipman.assessment.domain.SortAttribute;
+import com.slipman.assessment.domain.SortDirection;
+import com.slipman.assessment.exception.PostException;
 
 @Component
 public class HatchawaysAssessmentService
 {
-    private static final List<String> ALLOWED_SORT_ATTRIBUTES = Arrays.stream(SortAttribute.values()).map(SortAttribute::getName).collect(Collectors.toList());
+    private static final List<String> ALLOWED_SORT_ATTRIBUTES =
+            Arrays.stream(SortAttribute.values()).map(SortAttribute::getName).collect(Collectors.toList());
 
-    private static final List<String> ALLOWED_SORT_DIRECTIONS = Arrays.stream(SortDirection.values()).map(SortDirection::getDirection).collect(Collectors.toList());
+    private static final List<String> ALLOWED_SORT_DIRECTIONS =
+            Arrays.stream(SortDirection.values()).map(SortDirection::getDirection).collect(Collectors.toList());
 
     public Ping ping()
     {
@@ -58,9 +60,11 @@ public class HatchawaysAssessmentService
             throw new PostException(errorCodes);
         }
 
-        /* Remove any whitespace that may have been accidentally added between commas and then split the CSV at each comma
+        /*
+         * Remove any whitespace that may have been accidentally added between commas and then split the CSV at each
+         * comma
          */
-        tagsList =  Arrays.asList(tags.replaceAll("\\s", "").split(","));
+        tagsList = Arrays.asList(tags.replaceAll("\\s", "").split(","));
 
         return new ArrayList<>();
     }

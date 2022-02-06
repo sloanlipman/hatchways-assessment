@@ -11,7 +11,8 @@ public class PostException extends RuntimeException
         this.errorCodes = errorCodes;
     }
 
-    public List<ErrorCode> getErrorCodes() {
+    public List<ErrorCode> getErrorCodes()
+    {
         return errorCodes;
     }
 
