@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HatchawaysAssessementApplication
+public class HatchwaysAssessmentApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(HatchawaysAssessementApplication.class, args);
+        SpringApplication.run(HatchwaysAssessmentApplication.class, args);
     }
 }

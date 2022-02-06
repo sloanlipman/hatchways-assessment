@@ -9,10 +9,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.slipman.assessment.domain.Ping;
 
 @RunWith(MockitoJUnitRunner.class)
-public class HatchawaysAssessmentServiceTest
+public class HatchwaysAssessmentServiceTest
 {
     @Spy
-    private static HatchawaysAssessmentService service;
+    private static HatchwaysAssessmentService service;
 
     @Test
     public void testPing_ExpectSuccessfulPingReturned()

@@ -15,7 +15,7 @@ import com.slipman.assessment.domain.SortDirection;
 import com.slipman.assessment.exception.PostException;
 
 @Component
-public class HatchawaysAssessmentService
+public class HatchwaysAssessmentService
 {
     private static final List<String> ALLOWED_SORT_ATTRIBUTES =
             Arrays.stream(SortAttribute.values()).map(SortAttribute::getName).collect(Collectors.toList());

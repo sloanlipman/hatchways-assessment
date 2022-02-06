@@ -20,15 +20,15 @@ import com.slipman.assessment.domain.Ping;
 import com.slipman.assessment.domain.Post;
 import com.slipman.assessment.exception.PostException;
 import com.slipman.assessment.exception.PostExceptionResponse;
-import com.slipman.assessment.service.HatchawaysAssessmentService;
+import com.slipman.assessment.service.HatchwaysAssessmentService;
 
 @RestController
 @RequestMapping("/api")
 @ControllerAdvice
-public class HatchawaysAssessementController
+public class HatchwaysAssessementController
 {
     @Autowired
-    private HatchawaysAssessmentService service;
+    private HatchwaysAssessmentService service;
 
     @GetMapping("/ping")
     public ResponseEntity<Ping> ping()
