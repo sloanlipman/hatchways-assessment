@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.slipman.assessment.domain.GetPostsTaskSummary;
 import com.slipman.assessment.domain.Post;
 import com.slipman.assessment.domain.PostConstant;
-import com.slipman.assessment.exception.PostException;
 
 public class GetPostsTask implements Callable<GetPostsTaskSummary>
 {
@@ -41,23 +40,15 @@ public class GetPostsTask implements Callable<GetPostsTaskSummary>
     private List<Post> getPosts()
     {
         URI uri = UriComponentsBuilder.fromUriString(PostConstant.BASE_URL.getValue() + tag).build().encode().toUri();
-        try
+        ResponseEntity<Map<String, List<Post>>> response = restTemplate.exchange(uri, HttpMethod.GET,
+                new HttpEntity<>(getHttpHeaders()), new ParameterizedTypeReference<Map<String, List<Post>>>()
+                {
+                });
+        if (response.getBody() != null)
         {
-            ResponseEntity<Map<String, List<Post>>> response = restTemplate.exchange(uri, HttpMethod.GET,
-                    new HttpEntity<>(getHttpHeaders()), new ParameterizedTypeReference<Map<String, List<Post>>>()
-                    {
-                    });
-            if (response.getBody() != null)
-            {
-                return response.getBody().get(PostConstant.POSTS.getValue());
-            }
-            return new ArrayList<>();
+            return response.getBody().get(PostConstant.POSTS.getValue());
         }
-        catch (Exception e)
-        {
-            System.out.println(e);
-            throw new PostException(new ArrayList<>());
-        }
+        return new ArrayList<>();
     }
 
     private HttpHeaders getHttpHeaders()

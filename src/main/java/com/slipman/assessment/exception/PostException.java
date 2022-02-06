@@ -1,19 +1,32 @@
 package com.slipman.assessment.exception;
 
-import java.util.List;
-
 public class PostException extends RuntimeException
 {
-    List<ErrorCode> errorCodes;
+    private final ErrorCode errorCode;
 
-    public PostException(List<ErrorCode> errorCodes)
+    public static PostException getInvalidDirectionException()
     {
-        this.errorCodes = errorCodes;
+        return new PostException(ErrorCode.DIRECTION);
     }
 
-    public List<ErrorCode> getErrorCodes()
+    public static PostException getInvalidSortByException()
     {
-        return errorCodes;
+        return new PostException(ErrorCode.SORT_BY);
+    }
+
+    public static PostException getMissingTagException()
+    {
+        return new PostException(ErrorCode.TAGS);
+    }
+
+    private PostException(ErrorCode errorCode)
+    {
+        this.errorCode = errorCode;
+    }
+
+    public ErrorCode getErrorCode()
+    {
+        return errorCode;
     }
 
     public enum ErrorCode

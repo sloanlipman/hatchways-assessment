@@ -1,10 +1,10 @@
 package com.slipman.assessment.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +21,7 @@ import com.slipman.assessment.exception.PostException;
 public class HatchwaysAssessmentService
 {
     private static final List<String> ALLOWED_SORT_ATTRIBUTES =
-            Arrays.stream(SortAttribute.values()).map(SortAttribute::getName).collect(Collectors.toList());
+            Arrays.stream(SortAttribute.values()).map(SortAttribute::getAttributeName).collect(Collectors.toList());
 
     private static final List<String> ALLOWED_SORT_DIRECTIONS =
             Arrays.stream(SortDirection.values()).map(SortDirection::getDirection).collect(Collectors.toList());
@@ -43,34 +43,15 @@ public class HatchwaysAssessmentService
      */
     public Set<Post> getPosts(String tags, String sortBy, String direction)
     {
-        List<PostException.ErrorCode> errorCodes = new ArrayList<>();
         List<String> tagsList;
         if (StringUtils.isEmpty(tags))
         {
-            errorCodes.add(PostException.ErrorCode.TAGS);
+            throw PostException.getMissingTagException();
         }
 
-        if (StringUtils.isNotEmpty(sortBy) && !ALLOWED_SORT_DIRECTIONS.contains((sortBy)))
-        {
-            errorCodes.add(PostException.ErrorCode.SORT_BY);
-        }
-
-        /*
-         * If there was no specified direction, default to ascending. Otherwise, use the specified value or throw an
-         * error if the specified value isn't valid.
-         */
-        SortDirection sortDirection = SortDirection.ASCENDING;
-        // if (StringUtils.isNotEmpty(direction) && ALLOWED_SORT_DIRECTIONS.contains((direction))) {
-        // TODO need to use fromString here, not valueOf
-        // sortDirection = SortDirection.valueOf(direction);
-        // } else {
-        // errorCodes.add(PostException.ErrorCode.DIRECTION);
-        // }
-
-        if (errorCodes.size() > 0)
-        {
-            throw new PostException(errorCodes);
-        }
+        SortAttribute sortAttribute = StringUtils.isEmpty(sortBy) ? null : SortAttribute.fromString(sortBy);
+        SortDirection sortDirection =
+                StringUtils.isEmpty(direction) ? SortDirection.ASCENDING : SortDirection.fromString(direction);
 
         /*
          * Remove any whitespace that may have been accidentally added between commas and then split the CSV at each
@@ -78,29 +59,40 @@ public class HatchwaysAssessmentService
          */
         tagsList = Arrays.asList(tags.replaceAll("\\s", "").split(","));
         Set<Post> posts = taskManager.getPosts(tagsList);
-        // TODO need to use fromString here!
-        posts = posts.stream().sorted(getComparator(SortAttribute.valueOf(sortBy))).collect(Collectors.toSet());
-        // if (SortDirection.DESCENDING.equals(sortDirection))
-        // {
-        // posts = posts.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toSet());
-        // }
+
+        Comparator<Post> comparator = getComparator(sortAttribute, sortDirection);
+        if (comparator != null)
+        {
+            posts = posts.stream().sorted(comparator).collect(Collectors.toCollection(TreeSet::new));
+        }
         return posts;
     }
 
-    private Comparator<Post> getComparator(SortAttribute sortAttribute)
+    private Comparator<Post> getComparator(SortAttribute sortAttribute, SortDirection sortDirection)
     {
-        switch (sortAttribute)
+        Comparator<Post> comparator = null;
+        if (sortAttribute != null)
         {
-            case ID:
-                return Comparator.comparing(Post::getId);
-            case LIKES:
-                return Comparator.comparing(Post::getLikes);
-            case POPULARITY:
-                return Comparator.comparing(Post::getPopularity);
-            case READS:
-                return Comparator.comparing(Post::getReads);
-            default:
-                throw new RuntimeException(); // TODO do something better here
+            switch (sortAttribute)
+            {
+                case ID:
+                    comparator = Comparator.comparing(Post::getId);
+                    break;
+                case LIKES:
+                    comparator = Comparator.comparing(Post::getLikes);
+                    break;
+                case POPULARITY:
+                    comparator = Comparator.comparing(Post::getPopularity);
+                    break;
+                case READS:
+                    comparator = Comparator.comparing(Post::getReads);
+                    break;
+            }
+            if (SortDirection.DESCENDING.equals(sortDirection))
+            {
+                comparator = comparator.reversed();
+            }
         }
+        return comparator;
     }
 }
