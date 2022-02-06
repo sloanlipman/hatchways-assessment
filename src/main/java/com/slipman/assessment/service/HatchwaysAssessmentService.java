@@ -2,6 +2,7 @@ package com.slipman.assessment.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,7 +35,6 @@ public class HatchwaysAssessmentService
     }
 
     /**
-     *
      * @param tags
      * @param sortBy
      * @param direction
@@ -55,23 +55,17 @@ public class HatchwaysAssessmentService
             errorCodes.add(PostException.ErrorCode.SORT_BY);
         }
 
-        SortDirection sortDirection;
         /*
          * If there was no specified direction, default to ascending. Otherwise, use the specified value or throw an
          * error if the specified value isn't valid.
          */
-        if (StringUtils.isEmpty(direction))
-        {
-            sortDirection = SortDirection.ASCENDING;
-        }
-        else if (ALLOWED_SORT_DIRECTIONS.contains((direction)))
-        {
-            sortDirection = SortDirection.valueOf(direction);
-        }
-        else
-        {
-            errorCodes.add(PostException.ErrorCode.DIRECTION);
-        }
+        SortDirection sortDirection = SortDirection.ASCENDING;
+        // if (StringUtils.isNotEmpty(direction) && ALLOWED_SORT_DIRECTIONS.contains((direction))) {
+        // TODO need to use fromString here, not valueOf
+        // sortDirection = SortDirection.valueOf(direction);
+        // } else {
+        // errorCodes.add(PostException.ErrorCode.DIRECTION);
+        // }
 
         if (errorCodes.size() > 0)
         {
@@ -84,7 +78,29 @@ public class HatchwaysAssessmentService
          */
         tagsList = Arrays.asList(tags.replaceAll("\\s", "").split(","));
         Set<Post> posts = taskManager.getPosts(tagsList);
-        // then do sorting
+        // TODO need to use fromString here!
+        posts = posts.stream().sorted(getComparator(SortAttribute.valueOf(sortBy))).collect(Collectors.toSet());
+        // if (SortDirection.DESCENDING.equals(sortDirection))
+        // {
+        // posts = posts.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toSet());
+        // }
         return posts;
+    }
+
+    private Comparator<Post> getComparator(SortAttribute sortAttribute)
+    {
+        switch (sortAttribute)
+        {
+            case ID:
+                return Comparator.comparing(Post::getId);
+            case LIKES:
+                return Comparator.comparing(Post::getLikes);
+            case POPULARITY:
+                return Comparator.comparing(Post::getPopularity);
+            case READS:
+                return Comparator.comparing(Post::getReads);
+            default:
+                throw new RuntimeException(); // TODO do something better here
+        }
     }
 }

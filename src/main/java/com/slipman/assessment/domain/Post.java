@@ -28,6 +28,26 @@ public class Post
     @JsonProperty
     private List<String> tags;
 
+    public int getId()
+    {
+        return id;
+    }
+
+    public int getReads()
+    {
+        return reads;
+    }
+
+    public int getLikes()
+    {
+        return likes;
+    }
+
+    public double getPopularity()
+    {
+        return popularity;
+    }
+
     @Override
     public boolean equals(Object o)
     {
