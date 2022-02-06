@@ -1,8 +1,8 @@
 package com.slipman.assessment.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.slipman.assessment.domain.Ping;
 import com.slipman.assessment.domain.Post;
+import com.slipman.assessment.domain.PostConstant;
 import com.slipman.assessment.exception.PostException;
 import com.slipman.assessment.exception.PostExceptionResponse;
 import com.slipman.assessment.service.HatchwaysAssessmentService;
@@ -38,13 +39,13 @@ public class HatchwaysAssessementController
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<Map<String, List<Post>>> getPosts(@RequestParam(value = "tags") String tags,
+    public ResponseEntity<Map<String, Set<Post>>> getPosts(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "sortBy", required = false) String sortBy,
             @RequestParam(value = "direction", required = false) String direction)
     {
-        List<Post> posts = service.getPosts(tags, sortBy, direction);
-        Map<String, List<Post>> response = new HashMap<>();
-        response.put("posts", posts);
+        Set<Post> posts = service.getPosts(tags, sortBy, direction);
+        Map<String, Set<Post>> response = new HashMap<>();
+        response.put(PostConstant.POSTS.getValue(), posts);
         return ResponseEntity.ok(response);
     }
 

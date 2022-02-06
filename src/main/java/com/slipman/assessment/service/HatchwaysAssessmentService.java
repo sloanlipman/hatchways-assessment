@@ -3,9 +3,11 @@ package com.slipman.assessment.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.slipman.assessment.domain.Ping;
@@ -23,6 +25,9 @@ public class HatchwaysAssessmentService
     private static final List<String> ALLOWED_SORT_DIRECTIONS =
             Arrays.stream(SortDirection.values()).map(SortDirection::getDirection).collect(Collectors.toList());
 
+    @Autowired
+    private GetPostsTaskManager taskManager;
+
     public Ping ping()
     {
         return new Ping(true);
@@ -36,7 +41,7 @@ public class HatchwaysAssessmentService
      * @return
      * @throws
      */
-    public List<Post> getPosts(String tags, String sortBy, String direction)
+    public Set<Post> getPosts(String tags, String sortBy, String direction)
     {
         List<PostException.ErrorCode> errorCodes = new ArrayList<>();
         List<String> tagsList;
@@ -50,7 +55,20 @@ public class HatchwaysAssessmentService
             errorCodes.add(PostException.ErrorCode.SORT_BY);
         }
 
-        if (StringUtils.isNotEmpty(direction) && !ALLOWED_SORT_DIRECTIONS.contains((direction)))
+        SortDirection sortDirection;
+        /*
+         * If there was no specified direction, default to ascending. Otherwise, use the specified value or throw an
+         * error if the specified value isn't valid.
+         */
+        if (StringUtils.isEmpty(direction))
+        {
+            sortDirection = SortDirection.ASCENDING;
+        }
+        else if (ALLOWED_SORT_DIRECTIONS.contains((direction)))
+        {
+            sortDirection = SortDirection.valueOf(direction);
+        }
+        else
         {
             errorCodes.add(PostException.ErrorCode.DIRECTION);
         }
@@ -65,7 +83,8 @@ public class HatchwaysAssessmentService
          * comma
          */
         tagsList = Arrays.asList(tags.replaceAll("\\s", "").split(","));
-
-        return new ArrayList<>();
+        Set<Post> posts = taskManager.getPosts(tagsList);
+        // then do sorting
+        return posts;
     }
 }
