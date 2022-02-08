@@ -16,14 +16,21 @@ public enum SortDirection
         return direction;
     }
 
+    SortDirection(String direction)
+    {
+        this.direction = direction;
+    }
+
+    /**
+     * Find a member of this class based on an input sort direction.
+     *
+     * @param direction the value represented by {@link SortDirection#direction}.
+     * @return a member of this enum
+     * @throws PostException if no matching enum member is found
+     */
     public static SortDirection fromString(String direction)
     {
         return Arrays.stream(values()).filter(sortDirection -> sortDirection.direction.equals(direction)).findFirst()
                 .orElseThrow(PostException::getInvalidDirectionException);
-    }
-
-    SortDirection(String direction)
-    {
-        this.direction = direction;
     }
 }

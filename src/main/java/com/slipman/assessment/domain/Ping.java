@@ -7,12 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Ping
 {
     @JsonProperty
-    private boolean success;
-
-    public Ping(boolean success)
-    {
-        this.success = success;
-    }
+    private final boolean success = true;
 
     @Override
     public boolean equals(Object o)

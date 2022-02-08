@@ -29,17 +29,25 @@ public class HatchwaysAssessmentService
     @Autowired
     private GetPostsTaskManager taskManager;
 
+    /**
+     * Checks that the server is up and running.
+     *
+     * @return a successful ping to the server
+     */
     public Ping ping()
     {
-        return new Ping(true);
+        return new Ping();
     }
 
     /**
-     * @param tags
-     * @param sortBy
-     * @param direction
-     * @return
-     * @throws
+     * Get a {@link List} of {@link Post}s from Hatchways that correspond to a csv list of tags, sorted by a certain
+     * attribute and in a certain direction. If no sort attribute is given, default to {@link Post#getId} (by using
+     * {@link SortAttribute#ID}. If no sort direction is given, default to {@link SortDirection#ASCENDING}.
+     *
+     * @param tags a single tag or a csv list of tags to search by.
+     * @param sortBy the attribute by which the data should be ordered
+     * @param direction the direction in which the data should be ordered, based on the sortBy
+     * @return a list of posts, sorted in the specified direction by the specified attribute
      */
     public List<Post> getPosts(String tags, String sortBy, String direction)
     {

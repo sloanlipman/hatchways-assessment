@@ -23,6 +23,13 @@ public enum SortAttribute
         this.attributeName = name;
     }
 
+    /**
+     * Find a member of this class based on an input sort attribute.
+     *
+     * @param attributeName the value represented by {@link SortAttribute#attributeName}.
+     * @return a member of this enum
+     * @throws PostException if no matching enum member is found
+     */
     public static SortAttribute fromString(String attributeName)
     {
         return Arrays.stream(values()).filter(sortAttribute -> sortAttribute.attributeName.equals(attributeName))

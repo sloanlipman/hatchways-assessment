@@ -37,6 +37,11 @@ public class GetPostsTask implements Callable<GetPostsTaskSummary>
         return new GetPostsTaskSummary(tag, getPosts());
     }
 
+    /**
+     * Make a ReST call to Hatchways to fetch all posts based on the tag.
+     *
+     * @return all Posts associated with the tag.
+     */
     private List<Post> getPosts()
     {
         URI uri = UriComponentsBuilder.fromUriString(PostConstant.BASE_URL.getValue() + tag).build().encode().toUri();

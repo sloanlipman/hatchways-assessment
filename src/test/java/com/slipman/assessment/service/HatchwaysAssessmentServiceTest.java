@@ -17,6 +17,6 @@ public class HatchwaysAssessmentServiceTest
     @Test
     public void testPing_ExpectSuccessfulPingReturned()
     {
-        Assert.assertEquals(new Ping(true), service.ping());
+        Assert.assertEquals(new Ping(), service.ping());
     }
 }

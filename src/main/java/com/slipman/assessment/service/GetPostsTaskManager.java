@@ -11,7 +11,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -28,12 +27,13 @@ import com.slipman.assessment.domain.Post;
 public class GetPostsTaskManager
 {
     /**
-     * TODO fill this in
+     * The maximum number of requests to make per thread. Assuming that it's likely that a user will only have a handful
+     * of tags on each request, set this value to 1 so that every tag is queried in parallel.
      */
     private static final int THREAD_POOL_SIZE = 1;
 
     /**
-     *
+     * Holds a record of tags that we've already looked up mapped to the posts that came back.
      */
     private final Map<String, List<Post>> tagToPosts = new HashMap<>();
 
@@ -70,6 +70,10 @@ public class GetPostsTaskManager
     }
 
     /**
+     * Sets up a list of {@link Future} tasks to be fired off to fetch all relevant {@link Post}s. Once the parallel
+     * requests are done, check the cached results and return only the unique Posts that match the requested tags. If
+     * the Posts for a tag have already been looked up, defer to the cached list of Posts instead of fetching them
+     * again.
      *
      * @param tags
      * @return
@@ -98,8 +102,10 @@ public class GetPostsTaskManager
     }
 
     /**
+     * Invoke every pending {@link GetPostsTask} and cache the results by mapping the tag to the retrieved
+     * {@link Post}s.
      *
-     * @param tasks
+     * @param tasks the pending requests to fetch Posts from Hatchways
      */
     private void fetchResults(List<Future<?>> tasks)
     {
@@ -118,10 +124,8 @@ public class GetPostsTaskManager
         });
     }
 
-    class GetPostsThreadFactory implements ThreadFactory
+    static class GetPostsThreadFactory implements ThreadFactory
     {
-        private final AtomicLong threadCounter = new AtomicLong(1);
-
         GetPostsThreadFactory()
         {
             super();
@@ -130,9 +134,7 @@ public class GetPostsTaskManager
         @Override
         public Thread newThread(Runnable r)
         {
-            Thread thread = new Thread(r);
-            thread.setName("get-posts-thread-" + threadCounter.getAndIncrement());
-            return thread;
+            return new Thread(r);
         }
     }
 }
