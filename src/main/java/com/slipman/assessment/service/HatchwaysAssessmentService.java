@@ -1,10 +1,10 @@
 package com.slipman.assessment.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +41,7 @@ public class HatchwaysAssessmentService
      * @return
      * @throws
      */
-    public Set<Post> getPosts(String tags, String sortBy, String direction)
+    public List<Post> getPosts(String tags, String sortBy, String direction)
     {
         List<String> tagsList;
         if (StringUtils.isEmpty(tags))
@@ -49,7 +49,7 @@ public class HatchwaysAssessmentService
             throw PostException.getMissingTagException();
         }
 
-        SortAttribute sortAttribute = StringUtils.isEmpty(sortBy) ? null : SortAttribute.fromString(sortBy);
+        SortAttribute sortAttribute = StringUtils.isEmpty(sortBy) ? SortAttribute.ID : SortAttribute.fromString(sortBy);
         SortDirection sortDirection =
                 StringUtils.isEmpty(direction) ? SortDirection.ASCENDING : SortDirection.fromString(direction);
 
@@ -59,13 +59,14 @@ public class HatchwaysAssessmentService
          */
         tagsList = Arrays.asList(tags.replaceAll("\\s", "").split(","));
         Set<Post> posts = taskManager.getPosts(tagsList);
+        List<Post> postsList = new ArrayList<>(posts);
 
         Comparator<Post> comparator = getComparator(sortAttribute, sortDirection);
         if (comparator != null)
         {
-            posts = posts.stream().sorted(comparator).collect(Collectors.toCollection(TreeSet::new));
+            postsList = postsList.stream().sorted(comparator).collect(Collectors.toList());
         }
-        return posts;
+        return postsList;
     }
 
     private Comparator<Post> getComparator(SortAttribute sortAttribute, SortDirection sortDirection)
