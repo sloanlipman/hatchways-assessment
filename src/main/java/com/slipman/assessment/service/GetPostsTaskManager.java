@@ -71,22 +71,30 @@ public class GetPostsTaskManager
 
     /**
      *
-     * @param posts
+     * @param tags
      * @return
      */
-    Set<Post> getPosts(List<String> posts)
+    Set<Post> getPosts(List<String> tags)
     {
+        // Copy the original list of tags so we can use it later
+        List<String> tagsToCheck = new ArrayList<>(tags);
         List<Future<?>> tasksList = new ArrayList<>();
-        // Only check for posts that we haven't looked up yet
-        posts = posts.stream().filter(post -> !tagToPosts.containsKey(post)).collect(Collectors.toList());
-        for (String post : posts)
+        // Only check for tags that we haven't looked up yet
+        tags = tags.stream().filter(post -> !tagToPosts.containsKey(post)).collect(Collectors.toList());
+        for (String post : tags)
         {
             GetPostsTask task = new GetPostsTask(restTemplate, post);
             tasksList.add(executorService.submit(task));
         }
 
         fetchResults(tasksList);
-        return tagToPosts.values().stream().flatMap(List::stream).collect(Collectors.toSet());
+        //@formatter:off
+        return tagToPosts.keySet().stream()
+                .filter(tagsToCheck::contains)
+                .map(tagToPosts::get)
+                .flatMap(List::stream)
+                .collect(Collectors.toSet());
+        //@formatter:on
     }
 
     /**
@@ -101,7 +109,6 @@ public class GetPostsTaskManager
             {
                 GetPostsTaskSummary getPostsTaskSummary = (GetPostsTaskSummary) task.get();
                 tagToPosts.put(getPostsTaskSummary.getTag(), getPostsTaskSummary.getPosts());
-
             }
             catch (InterruptedException | ExecutionException e)
             {
