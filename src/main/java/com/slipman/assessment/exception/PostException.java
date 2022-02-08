@@ -1,5 +1,7 @@
 package com.slipman.assessment.exception;
 
+import java.util.Objects;
+
 public class PostException extends RuntimeException
 {
     private final ErrorCode errorCode;
@@ -27,6 +29,27 @@ public class PostException extends RuntimeException
     public ErrorCode getErrorCode()
     {
         return errorCode;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        PostException postException = (PostException) o;
+        return errorCode == postException.errorCode;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(errorCode);
     }
 
     public enum ErrorCode

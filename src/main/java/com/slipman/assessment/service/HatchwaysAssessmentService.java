@@ -70,37 +70,31 @@ public class HatchwaysAssessmentService
         List<Post> postsList = new ArrayList<>(posts);
 
         Comparator<Post> comparator = getComparator(sortAttribute, sortDirection);
-        if (comparator != null)
-        {
-            postsList = postsList.stream().sorted(comparator).collect(Collectors.toList());
-        }
-        return postsList;
+        return postsList.stream().sorted(comparator).collect(Collectors.toList());
     }
 
-    private Comparator<Post> getComparator(SortAttribute sortAttribute, SortDirection sortDirection)
+    Comparator<Post> getComparator(SortAttribute sortAttribute, SortDirection sortDirection)
     {
-        Comparator<Post> comparator = null;
-        if (sortAttribute != null)
+        Comparator<Post> comparator;
+        switch (sortAttribute)
         {
-            switch (sortAttribute)
-            {
-                case ID:
-                    comparator = Comparator.comparing(Post::getId);
-                    break;
-                case LIKES:
-                    comparator = Comparator.comparing(Post::getLikes);
-                    break;
-                case POPULARITY:
-                    comparator = Comparator.comparing(Post::getPopularity);
-                    break;
-                case READS:
-                    comparator = Comparator.comparing(Post::getReads);
-                    break;
-            }
-            if (SortDirection.DESCENDING.equals(sortDirection))
-            {
-                comparator = comparator.reversed();
-            }
+            case LIKES:
+                comparator = Comparator.comparing(Post::getLikes);
+                break;
+            case POPULARITY:
+                comparator = Comparator.comparing(Post::getPopularity);
+                break;
+            case READS:
+                comparator = Comparator.comparing(Post::getReads);
+                break;
+            case ID:
+            default:
+                comparator = Comparator.comparing(Post::getId);
+        }
+
+        if (SortDirection.DESCENDING.equals(sortDirection))
+        {
+            comparator = comparator.reversed();
         }
         return comparator;
     }
