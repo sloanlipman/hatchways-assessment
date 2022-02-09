@@ -75,8 +75,8 @@ public class GetPostsTaskManager
      * the Posts for a tag have already been looked up, defer to the cached list of Posts instead of fetching them
      * again.
      *
-     * @param tags
-     * @return
+     * @param tags a list of input tags to search for
+     * @return the unique set of posts that match the requested tags
      */
     Set<Post> getPosts(List<String> tags)
     {
