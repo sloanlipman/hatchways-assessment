@@ -42,36 +42,19 @@ public class DataReader
 
     public static Map<String, List<Post>> getPostsMapFromJson(String path)
     {
-        Map<String, List<Map<String, Object>>> fileAsMap = readFile(path);
-        Map<String, List<Post>> postsMap = new HashMap<>();
-        try
-        {
-            postsMap = (Map<String, List<Post>>) OBJECT_MAPPER.convertValue(fileAsMap,
-                    new TypeReference<Map<String, List<Post>>>()
-                    {
-                    });
-        }
-        catch (IllegalArgumentException e)
-        {
-            Assert.fail(
-                    "An exception occurred while trying to convert file to Map<String, List<Post>> " + path + ": " + e);
-        }
-        return postsMap;
-    }
-
-    private static Map<String, List<Map<String, Object>>> readFile(String path)
-    {
         ClassPathResource classPathResource = new ClassPathResource("/" + path);
-        Map<String, List<Map<String, Object>>> fileAsMap = new HashMap<>();
+        Map<String, List<Post>> postsMap = new HashMap<>();
         try (InputStream input = classPathResource.getInputStream())
         {
             String fileAsJson = IOUtils.toString(input, Charset.defaultCharset());
-            fileAsMap = (Map<String, List<Map<String, Object>>>) OBJECT_MAPPER.readValue(fileAsJson, Map.class);
+            postsMap = OBJECT_MAPPER.readValue(fileAsJson, new TypeReference<Map<String, List<Post>>>()
+            {
+            });
         }
         catch (IOException e)
         {
             Assert.fail("An exception occurred while trying to read file " + path + ": " + e);
         }
-        return fileAsMap;
+        return postsMap;
     }
 }
