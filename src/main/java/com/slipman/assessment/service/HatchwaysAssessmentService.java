@@ -73,22 +73,32 @@ public class HatchwaysAssessmentService
         return postsList.stream().sorted(comparator).collect(Collectors.toList());
     }
 
-    Comparator<Post> getComparator(SortAttribute sortAttribute, SortDirection sortDirection)
+    /**
+     * Determine how to sort the posts, based on a given sort attribute and a sort direction. If two posts would be
+     * sorted at the same position, do a secondary sort by {@link Post#getId()} to ensure consistent sorting. Note that
+     * the sort by id won't be descending if the sort direction is {@link SortDirection#DESCENDING}.
+     *
+     * @param sortAttribute the field to sort by
+     * @param sortDirection the direction to sort the records in
+     * @return how the {@link Post}s should be sorted
+     */
+    private Comparator<Post> getComparator(SortAttribute sortAttribute, SortDirection sortDirection)
     {
-        Comparator<Post> comparator;
+        // sortAttribute won't be null here because we initialized it to id before calling this method
+        assert sortAttribute != null;
+        Comparator<Post> comparator = null;
         switch (sortAttribute)
         {
             case LIKES:
-                comparator = Comparator.comparing(Post::getLikes);
+                comparator = Comparator.comparing(Post::getLikes).thenComparing(Post::getId);
                 break;
             case POPULARITY:
-                comparator = Comparator.comparing(Post::getPopularity);
+                comparator = Comparator.comparing(Post::getPopularity).thenComparing(Post::getId);
                 break;
             case READS:
-                comparator = Comparator.comparing(Post::getReads);
+                comparator = Comparator.comparing(Post::getReads).thenComparing(Post::getId);
                 break;
             case ID:
-            default:
                 comparator = Comparator.comparing(Post::getId);
         }
 
@@ -96,6 +106,7 @@ public class HatchwaysAssessmentService
         {
             comparator = comparator.reversed();
         }
+        comparator = comparator.thenComparing(Post::getId);
         return comparator;
     }
 }

@@ -1,0 +1,64 @@
+{
+  "posts": [
+    {
+      "author": "Zackery Turner",
+      "authorId": 12,
+      "id": 2,
+      "likes": 469,
+      "popularity": 0.68,
+      "reads": 90406,
+      "tags": [
+        "startups",
+        "tech",
+        "history"
+      ]
+    },
+    {
+      "author": "Adalyn Blevins",
+      "authorId": 11,
+      "id": 12,
+      "likes": 590,
+      "popularity": 0.32,
+      "reads": 80351,
+      "tags": [
+        "tech"
+      ]
+    },
+    {
+      "author": "Elisha Friedman",
+      "authorId": 8,
+      "id": 4,
+      "likes": 728,
+      "popularity": 0.88,
+      "reads": 19645,
+      "tags": [
+        "science",
+        "design",
+        "tech"
+      ]
+    },
+    {
+      "author": "Joe Schmo",
+      "authorId": 42,
+      "id": 95,
+      "likes": 728,
+      "popularity": 0.88,
+      "reads": 19645,
+      "tags": [
+        "tech"
+      ]
+    },
+    {
+      "author": "Rylee Paul",
+      "authorId": 9,
+      "id": 1,
+      "likes": 960,
+      "popularity": 0.13,
+      "reads": 50361,
+      "tags": [
+        "tech",
+        "health"
+      ]
+    }
+  ]
+}
