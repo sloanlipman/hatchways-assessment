@@ -32,11 +32,11 @@ public class GetPostsTaskManagerTest
     @Mock
     private ExecutorService executorService;
 
-    private final List<Post> HEALTH_POSTS = DataReader.readPostFromJson("health.json");
+    private final List<Post> HEALTH_POSTS = DataReader.getPostsListFromJson("health.json");
 
-    private final List<Post> SCIENCE_POSTS = DataReader.readPostFromJson("science.json");
+    private final List<Post> SCIENCE_POSTS = DataReader.getPostsListFromJson("science.json");
 
-    private final List<Post> TECH_POSTS = DataReader.readPostFromJson("tech.json");
+    private final List<Post> TECH_POSTS = DataReader.getPostsListFromJson("tech.json");
 
     @After
     public void cleanUp()
@@ -156,10 +156,6 @@ public class GetPostsTaskManagerTest
     @Test
     public void testGetPosts_CacheHasAllRequestedTags_ExpectNoNewTagsFetched_ExpectOnlyRequestedTagsReturned()
     {
-        Mockito.doNothing().when(taskManager).createAndSubmitTask(ArgumentMatchers.anyString(),
-                ArgumentMatchers.anyList());
-        Mockito.doReturn(new HashMap<>()).when(taskManager).fetchResults(ArgumentMatchers.anyList());
-
         taskManager.getCachedTagsToPosts().put("health", HEALTH_POSTS);
         taskManager.getCachedTagsToPosts().put("science", SCIENCE_POSTS);
         taskManager.getCachedTagsToPosts().put("tech", TECH_POSTS);

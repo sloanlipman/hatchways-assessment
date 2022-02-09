@@ -80,13 +80,13 @@ public class HatchwaysAssessmentServiceTest
     {
         List<String> expectedTagsList = Collections.singletonList("tech");
         ;
-        Set<Post> postsSet = new HashSet<>(DataReader.readPostFromJson("tech.json"));
+        Set<Post> postsSet = new HashSet<>(DataReader.getPostsListFromJson("tech.json"));
         Mockito.doReturn(postsSet).when(taskManager).getPosts(expectedTagsList);
 
         List<Post> actualPosts = service.getPosts("tech", null, null);
 
         Mockito.verify(taskManager).getPosts(ArgumentMatchers.eq(expectedTagsList));
-        Assert.assertEquals(DataReader.readPostFromJson("tech_defaultSort.json"), actualPosts);
+        Assert.assertEquals(DataReader.getPostsListFromJson("tech_defaultSort.json"), actualPosts);
     }
 
     @Test
@@ -94,13 +94,13 @@ public class HatchwaysAssessmentServiceTest
     {
         List<String> expectedTagsList = Collections.singletonList("tech");
         ;
-        Set<Post> postsSet = new HashSet<>(DataReader.readPostFromJson("tech.json"));
+        Set<Post> postsSet = new HashSet<>(DataReader.getPostsListFromJson("tech.json"));
         Mockito.doReturn(postsSet).when(taskManager).getPosts(expectedTagsList);
 
         List<Post> actualPosts = service.getPosts("tech", "likes", "asc");
 
         Mockito.verify(taskManager).getPosts(ArgumentMatchers.eq(expectedTagsList));
-        Assert.assertEquals(DataReader.readPostFromJson("tech_likes_ascending.json"), actualPosts);
+        Assert.assertEquals(DataReader.getPostsListFromJson("tech_likes_ascending.json"), actualPosts);
     }
 
     @Test
@@ -108,13 +108,13 @@ public class HatchwaysAssessmentServiceTest
     {
         List<String> expectedTagsList = Collections.singletonList("tech");
         ;
-        Set<Post> postsSet = new HashSet<>(DataReader.readPostFromJson("tech.json"));
+        Set<Post> postsSet = new HashSet<>(DataReader.getPostsListFromJson("tech.json"));
         Mockito.doReturn(postsSet).when(taskManager).getPosts(expectedTagsList);
 
         List<Post> actualPosts = service.getPosts("tech", "likes", "desc");
 
         Mockito.verify(taskManager).getPosts(ArgumentMatchers.eq(expectedTagsList));
-        Assert.assertEquals(DataReader.readPostFromJson("tech_likes_descending.json"), actualPosts);
+        Assert.assertEquals(DataReader.getPostsListFromJson("tech_likes_descending.json"), actualPosts);
     }
 
     @Test
@@ -122,13 +122,13 @@ public class HatchwaysAssessmentServiceTest
     {
         List<String> expectedTagsList = Collections.singletonList("tech");
         ;
-        Set<Post> postsSet = new HashSet<>(DataReader.readPostFromJson("tech.json"));
+        Set<Post> postsSet = new HashSet<>(DataReader.getPostsListFromJson("tech.json"));
         Mockito.doReturn(postsSet).when(taskManager).getPosts(expectedTagsList);
 
         List<Post> actualPosts = service.getPosts("tech", "popularity", "desc");
 
         Mockito.verify(taskManager).getPosts(ArgumentMatchers.eq(expectedTagsList));
-        Assert.assertEquals(DataReader.readPostFromJson("tech_popularity_descending.json"), actualPosts);
+        Assert.assertEquals(DataReader.getPostsListFromJson("tech_popularity_descending.json"), actualPosts);
     }
 
     @Test
@@ -136,13 +136,13 @@ public class HatchwaysAssessmentServiceTest
     {
         List<String> expectedTagsList = Collections.singletonList("tech");
         ;
-        Set<Post> postsSet = new HashSet<>(DataReader.readPostFromJson("tech.json"));
+        Set<Post> postsSet = new HashSet<>(DataReader.getPostsListFromJson("tech.json"));
         Mockito.doReturn(postsSet).when(taskManager).getPosts(expectedTagsList);
 
         List<Post> actualPosts = service.getPosts("tech", "reads", null);
 
         Mockito.verify(taskManager).getPosts(ArgumentMatchers.eq(expectedTagsList));
-        Assert.assertEquals(DataReader.readPostFromJson("tech_reads_ascending.json"), actualPosts);
+        Assert.assertEquals(DataReader.getPostsListFromJson("tech_reads_ascending.json"), actualPosts);
     }
 
     @Test
@@ -150,12 +150,12 @@ public class HatchwaysAssessmentServiceTest
     {
         List<String> expectedTagsList = Collections.singletonList("tech");
         ;
-        Set<Post> postsSet = new HashSet<>(DataReader.readPostFromJson("tech.json"));
+        Set<Post> postsSet = new HashSet<>(DataReader.getPostsListFromJson("tech.json"));
         Mockito.doReturn(postsSet).when(taskManager).getPosts(expectedTagsList);
 
         List<Post> actualPosts = service.getPosts("tech", "id", "desc");
 
         Mockito.verify(taskManager).getPosts(ArgumentMatchers.eq(expectedTagsList));
-        Assert.assertEquals(DataReader.readPostFromJson("tech_id_descending.json"), actualPosts);
+        Assert.assertEquals(DataReader.getPostsListFromJson("tech_id_descending.json"), actualPosts);
     }
 }
