@@ -26,7 +26,7 @@ import com.slipman.assessment.service.HatchwaysAssessmentService;
 @RestController
 @RequestMapping("/api")
 @ControllerAdvice
-public class HatchwaysAssessementController
+public class HatchwaysAssessmentController
 {
     @Autowired
     private HatchwaysAssessmentService service;
