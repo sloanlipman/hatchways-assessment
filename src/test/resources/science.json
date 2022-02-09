@@ -1,0 +1,172 @@
+{
+  "posts": [
+    {
+      "author": "Elisha Friedman",
+      "authorId": 8,
+      "id": 4,
+      "likes": 728,
+      "popularity": 0.88,
+      "reads": 19645,
+      "tags": [
+        "science",
+        "design",
+        "tech"
+      ]
+    },
+    {
+      "author": "Zackery Turner",
+      "authorId": 12,
+      "id": 6,
+      "likes": 387,
+      "popularity": 0.83,
+      "reads": 50062,
+      "tags": [
+        "science",
+        "startups"
+      ]
+    },
+    {
+      "author": "Ahmad Dunn",
+      "authorId": 7,
+      "id": 7,
+      "likes": 499,
+      "popularity": 0.93,
+      "reads": 95434,
+      "tags": [
+        "science",
+        "health"
+      ]
+    },
+    {
+      "author": "Elisha Friedman",
+      "authorId": 8,
+      "id": 10,
+      "likes": 853,
+      "popularity": 0.6,
+      "reads": 35913,
+      "tags": [
+        "science",
+        "health",
+        "history"
+      ]
+    },
+    {
+      "author": "Ahmad Dunn",
+      "authorId": 7,
+      "id": 11,
+      "likes": 750,
+      "popularity": 0.54,
+      "reads": 6183,
+      "tags": [
+        "science",
+        "design"
+      ]
+    },
+    {
+      "author": "Rylee Paul",
+      "authorId": 9,
+      "id": 17,
+      "likes": 527,
+      "popularity": 0.88,
+      "reads": 52454,
+      "tags": [
+        "science",
+        "health"
+      ]
+    },
+    {
+      "author": "Elisha Friedman",
+      "authorId": 8,
+      "id": 19,
+      "likes": 779,
+      "popularity": 0.91,
+      "reads": 3041,
+      "tags": [
+        "science"
+      ]
+    },
+    {
+      "author": "Lainey Ritter",
+      "authorId": 1,
+      "id": 21,
+      "likes": 406,
+      "popularity": 0.81,
+      "reads": 88797,
+      "tags": [
+        "science",
+        "startups"
+      ]
+    },
+    {
+      "author": "Lainey Ritter",
+      "authorId": 1,
+      "id": 33,
+      "likes": 289,
+      "popularity": 0.73,
+      "reads": 31629,
+      "tags": [
+        "science"
+      ]
+    },
+    {
+      "author": "Rylee Paul",
+      "authorId": 9,
+      "id": 40,
+      "likes": 968,
+      "popularity": 0.54,
+      "reads": 90784,
+      "tags": [
+        "culture",
+        "science"
+      ]
+    },
+    {
+      "author": "Jon Abbott",
+      "authorId": 4,
+      "id": 43,
+      "likes": 149,
+      "popularity": 0.07,
+      "reads": 77776,
+      "tags": [
+        "science",
+        "tech"
+      ]
+    },
+    {
+      "author": "Ahmad Dunn",
+      "authorId": 7,
+      "id": 45,
+      "likes": 31,
+      "popularity": 0.89,
+      "reads": 63432,
+      "tags": [
+        "science",
+        "history"
+      ]
+    },
+    {
+      "author": "Elisha Friedman",
+      "authorId": 8,
+      "id": 52,
+      "likes": 602,
+      "popularity": 0.26,
+      "reads": 76359,
+      "tags": [
+        "science",
+        "health"
+      ]
+    },
+    {
+      "author": "Trevon Rodriguez",
+      "authorId": 5,
+      "id": 58,
+      "likes": 466,
+      "popularity": 0.1,
+      "reads": 17389,
+      "tags": [
+        "science",
+        "tech"
+      ]
+    }
+  ]
+}

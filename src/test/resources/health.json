@@ -1,0 +1,88 @@
+{
+  "posts": [
+    {
+      "author": "Rylee Paul",
+      "authorId": 9,
+      "id": 1,
+      "likes": 960,
+      "popularity": 0.13,
+      "reads": 50361,
+      "tags": [
+        "tech",
+        "health"
+      ]
+    },
+    {
+      "author": "Trevon Rodriguez",
+      "authorId": 5,
+      "id": 3,
+      "likes": 425,
+      "popularity": 0.68,
+      "reads": 11381,
+      "tags": [
+        "startups",
+        "health"
+      ]
+    },
+    {
+      "author": "Bryson Bowers",
+      "authorId": 6,
+      "id": 5,
+      "likes": 44,
+      "popularity": 0.57,
+      "reads": 94293,
+      "tags": [
+        "startups",
+        "health"
+      ]
+    },
+    {
+      "author": "Ahmad Dunn",
+      "authorId": 7,
+      "id": 7,
+      "likes": 499,
+      "popularity": 0.93,
+      "reads": 95434,
+      "tags": [
+        "science",
+        "health"
+      ]
+    },
+    {
+      "author": "Elisha Friedman",
+      "authorId": 8,
+      "id": 10,
+      "likes": 853,
+      "popularity": 0.6,
+      "reads": 35913,
+      "tags": [
+        "science",
+        "health",
+        "history"
+      ]
+    },
+    {
+      "author": "Rylee Paul",
+      "authorId": 9,
+      "id": 17,
+      "likes": 527,
+      "popularity": 0.88,
+      "reads": 52454,
+      "tags": [
+        "science",
+        "health"
+      ]
+    },
+    {
+      "author": "Ahmad Dunn",
+      "authorId": 7,
+      "id": 27,
+      "likes": 324,
+      "popularity": 0.98,
+      "reads": 73428,
+      "tags": [
+        "health"
+      ]
+    }
+  ]
+}

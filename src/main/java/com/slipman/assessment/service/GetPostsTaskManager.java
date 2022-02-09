@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -35,7 +34,12 @@ public class GetPostsTaskManager
     /**
      * Holds a record of tags that we've already looked up mapped to the posts that came back.
      */
-    private final Map<String, List<Post>> tagToPosts = new HashMap<>();
+    private final Map<String, List<Post>> cachedTagsToPosts = new HashMap<>();
+
+    public Map<String, List<Post>> getCachedTagsToPosts()
+    {
+        return cachedTagsToPosts;
+    }
 
     @Autowired
     private RestTemplate restTemplate;
@@ -84,37 +88,45 @@ public class GetPostsTaskManager
         List<String> tagsToCheck = new ArrayList<>(tags);
         List<Future<?>> tasksList = new ArrayList<>();
         // Only check for tags that we haven't looked up yet
-        tags = tags.stream().filter(post -> !tagToPosts.containsKey(post)).collect(Collectors.toList());
-        for (String post : tags)
+        tags = tags.stream().filter(post -> !cachedTagsToPosts.containsKey(post)).collect(Collectors.toList());
+        if (tags.size() > 0)
         {
-            GetPostsTask task = new GetPostsTask(restTemplate, post);
-            tasksList.add(executorService.submit(task));
+            for (String tag : tags)
+            {
+                createAndSubmitTask(tag, tasksList);
+            }
+            cachedTagsToPosts.putAll(fetchResults(tasksList));
         }
-
-        fetchResults(tasksList);
         //@formatter:off
-        return tagToPosts.keySet().stream()
+        return cachedTagsToPosts.keySet().stream()
                 .filter(tagsToCheck::contains)
-                .map(tagToPosts::get)
+                .map(cachedTagsToPosts::get)
                 .flatMap(List::stream)
                 .collect(Collectors.toSet());
         //@formatter:on
     }
 
+    // Extracted to its own method to make testing easier
+    void createAndSubmitTask(String tag, List<Future<?>> tasksList)
+    {
+        GetPostsTask task = new GetPostsTask(restTemplate, tag);
+        tasksList.add(executorService.submit(task));
+    }
+
     /**
-     * Invoke every pending {@link GetPostsTask} and cache the results by mapping the tag to the retrieved
-     * {@link Post}s.
+     * Invoke every pending {@link GetPostsTask} and map the tag to the retrieved {@link Post}s.
      *
      * @param tasks the pending requests to fetch Posts from Hatchways
+     * @return a mapping of tags to Posts
      */
-    private void fetchResults(List<Future<?>> tasks)
+    Map<String, List<Post>> fetchResults(List<Future<?>> tasks)
     {
-        final AtomicInteger counter = new AtomicInteger((1));
+        Map<String, List<Post>> postsToTags = new HashMap<>();
         tasks.forEach(task -> {
             try
             {
                 GetPostsTaskSummary getPostsTaskSummary = (GetPostsTaskSummary) task.get();
-                tagToPosts.put(getPostsTaskSummary.getTag(), getPostsTaskSummary.getPosts());
+                postsToTags.put(getPostsTaskSummary.getTag(), getPostsTaskSummary.getPosts());
             }
             catch (InterruptedException | ExecutionException e)
             {
@@ -122,6 +134,7 @@ public class GetPostsTaskManager
                 Thread.currentThread().interrupt();
             }
         });
+        return postsToTags;
     }
 
     static class GetPostsThreadFactory implements ThreadFactory
