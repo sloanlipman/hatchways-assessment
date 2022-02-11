@@ -30,7 +30,7 @@ public class DataReader
 
     /**
      * Reads a JSON file from the classpath (test/resources), converts it to a {@link Map}, extracts the content mapped
-     * to "posts", and converts this content to a {@link List} of {@link Post}s
+     * to {@link PostConstant#POSTS#}, and converts this content to a {@link List} of {@link Post}s
      *
      * @param path the path of the file to be read
      * @return a list of Posts that was contained in the JSON file

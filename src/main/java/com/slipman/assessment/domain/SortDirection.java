@@ -4,6 +4,10 @@ import java.util.Arrays;
 
 import com.slipman.assessment.exception.PostException;
 
+/**
+ * Defines a list of allowable directions to sort a {@link java.util.List} of {@link Post}s by when calling
+ * {@link com.slipman.assessment.service.HatchwaysAssessmentService#getPosts(String, String, String)}
+ */
 public enum SortDirection
 {
     ASCENDING("asc"),
