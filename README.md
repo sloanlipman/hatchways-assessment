@@ -1,4 +1,6 @@
 # Hatchways Assessment
+Based on the Back-end Assessment - Blog Posts for hatchways.io, this project fetches a list of blog posts based on a specific tag or tags and organizes them in a specified direction based on an attribute. The purpose of the project is to extend https://api.hatchways.io/assessment/blog/posts?tag=tech (or some other tag) to be able to fetch posts with multiple tags in one ReST call.
+
 All source code with a full Git commit history can be found at https://github.com/sloanlipman/hatchways-assessment.
 
 ## Pre-requites
