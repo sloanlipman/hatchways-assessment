@@ -1,30 +1,30 @@
-#Hatchways Assessment
+# Hatchways Assessment
 All source code with a full Git commit history can be found at https://github.com/sloanlipman/hatchways-assessment.
 
-##Pre-requites
+## Pre-requites
 - Java 8
 
-##Installation
-###Windows
+## Installation
+### Windows
 <code>./gradlew.bat build</code>
 
-###MacOS/Linux
+### MacOS/Linux
 <code>./gradlew build</code>
 
 Note: This project uses the Spotless plugin to ensure consistent code formatting. If any changes are made, you must run
 <code>./gradlew.bat spotlessApply</code> (Windows) or <code>./gradlew spotlessApply</code> (MacOS/Linux) before building.
 
-##Running
+## Running
 <code>./gradlew.bat bootRun</code>
 
-###MacOS/Linux
+### MacOS/Linux
 <code>./gradlew bootRun</code>
 
 The application will then run on port 8080.
 
 Note: You can supply the optional <code>-xtest</code> argument to skip tests.
 
-##Use
+## Use
 This application exposes two ReSTful APIs:
 * <code>localhost:8080/api/ping</code>
 * <code>localhost:8080/api/posts?tags=tech,science&sortBy=likes&direction=desc</code>
